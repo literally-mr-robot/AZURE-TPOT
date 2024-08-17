@@ -1,3 +1,4 @@
+# Deploying a Multi-Platform Honeypot on Azure Cloud
 ## Introduction
 
 Preparation is key in most industries but for cybersecurity it is a must. Understanding your threats so you can stay one step ahead of your adversaries is important to progress throughout this industry. An effiecient way of gaining this information is by setting up a honeypot. Honeypots are designed to lure attackers and gather valuable information about their tactics. To gain information about diverse variety of vulnerablities (SSH, Malware, Telnet, etc) I will be deploying T-Pot, a multi honeypot system.
@@ -12,19 +13,18 @@ Preparation is key in most industries but for cybersecurity it is a must. Unders
 ## Creating the VM in Azure
 
 ![Screenshot (130)](https://github.com/user-attachments/assets/0e28e3aa-573c-4db5-892f-8368925c01c5)
-T-pot is resource intensive due to the multiple honeypots and the elastic stack(Elasticsearch,Kibana etc) that collects logs and analyses them. For this I chose 16 GiB ram with 4 vCPUs. This can be expensive to run for a few days so be aware.
+T-pot is resource intensive due to the multiple honeypots and the elastic stack(Elasticsearch,Kibana etc) that collects logs and analyses them. For this I chose 16 GiB ram with 4 vCPUs. This configuration runs at £0.15 an hour which can accumualte to 109.23 a month so be aware of costs.
 
 ## Configuring the VM
 
-Under the Networking setting for your virtual machine, add an inbound rule to cover all possible ports making it easier to attract attackers.
+Under the Networking setting for your virtual machine, add an inbound rule to cover all possible ports. Inbound rules controls traffic entering ports making it easier to attract attackers. Next, we'll configure the VM's boot process. First, download PuTTY, a free SSH client. Open PuTTY Key Generator and load your private key.This creates a public-private key pair for secure authentication. Then, launch PuTTY Configuration. Navigate to Connection > SSH > Auth, browse to and select your newly generated private key file. This allows you to use key-based authentication, which is more secure than password-based login . Finally, click "Open" to establish a secure connection to your VM.
 ![Untitled](https://github.com/user-attachments/assets/df77627b-c0c8-4309-a581-0348b932fc6a)
-
-Next, we'll configure the VM's boot process. First, download PuTTY, a free SSH client. Open PuTTY Key Generator and load your private key.This creates a public-private key pair for secure authentication. Then, launch PuTTY Configuration. Navigate to Connection > SSH > Auth, browse to and select your newly generated private key file. This allows you to use key-based authentication, which is more secure than password-based login . Finally, click "Open" to establish a secure connection to your VM.
 ![Untitled(1)](https://github.com/user-attachments/assets/73e82d3c-ffe7-4557-aaa6-af2292fe20c3)
 ![Untitled(2)](https://github.com/user-attachments/assets/a9cc164d-37fd-45f7-8466-70ee4a63692c)
 
 
 ## Installing the honeypot
+You can run some basic commands to update your system and then install Git to install T-Pot to your virtual machine.You can visit the T-Pot repository if you want to learn more necessary information about which docker images are installed , the system requirements and etc.The commands are below:
 
 ```jsx
 sudo apt update
@@ -148,3 +148,14 @@ To assess the impact of this setup, I observed the honeypot over a week, gatheri
 The data gathered highlighted current threats and helped refine security strategies. It's important to note that while this honeypot setup provides valuable insights, the volume of security events can be influenced by factors such as network usage patterns and the honeypot's visibility to potential attackers.
 
 In summary, this project demonstrates the effective use of a multi-honeypot system integrated with robust analysis tools to enhance threat detection and understanding. As a cybersecurity analyst, I recognize the importance of continuous monitoring and contextual analysis of security events. This approach allows for accurate threat identification and helps in developing and optimizing incident response strategies to combat evolving cyber threats.
+
+## Improvements
+The server I chose for this project was based in eastern US, expecting the threat actors to be Chinese and Russian . Implementing multiple honeypots across different geographical locations would provide a broader view of attack patterns but would increase operational and infrastructure costs due to additional cloud resources. 
+
+As the honeypot was maximised ram usage filled nearly half my VM's disk, expanding storage capacity for long-term data retention would enable historical trend analysis, but would also increase storage costs and require more powerful data processing capabilities.
+
+Developing automated systems that respond to threats in real time could reduce the response time to incidents. This would involve additional development work and could raise the costs due to the need for more sophisticated software and hardware.
+
+Continuously updating the honeypot to counteract new vulnerabilities and evolving attack techniques would be essential for maintaining its effectiveness. This would incur ongoing costs related to personnel time and software updates.
+
+By investing in these improvements, the honeypot system could provide more comprehensive threat intelligence and more effectively support cybersecurity defenses, though at the cost of increased financial and resource commitments.
